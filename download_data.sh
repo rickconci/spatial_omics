@@ -19,8 +19,14 @@
 #   python3 download_data.py data.yaml --list
 #   python3 download_data.py              # uses ./data.yaml next to this script
 #
+# Rename already-downloaded blobs (no wget): run Python with
+#   python3 download_data.py data.yaml --rename-existing
+# then add --apply to perform renames; optional --delete-partials removes wget .1/.2 junk.
+#
 # Each dataset requires `label` in data.yaml. Default save path is:
 #   {root}/{dataset_prefix}/{label}__{geo_accession}
+# The archive is written with a clear name (e.g. GSE123_GEO_series_supplement.tar) via
+# wget -O; override with download.output_filename in data.yaml.
 # A dataset_manifest.yaml is written into that folder before wget runs.
 
 set -euo pipefail

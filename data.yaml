@@ -8,7 +8,7 @@
 #
 storage:
   root: /mnt/data
-  dataset_prefix: tumor_niche
+  dataset_prefix: spatial_niche
 defaults:
   download:
     wget_extra_args: []
@@ -26,8 +26,8 @@ datasets:
       source_type: geo_and_scp
       platform: Xenium
       organism: Homo sapiens
-      n_participants: 8
-      n_samples: 12
+      n_participants: 49
+      n_samples: 49
       n_cells: 25795
       n_nuclei: null
       n_spots: null
