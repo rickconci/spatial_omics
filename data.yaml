@@ -1,0 +1,779 @@
+# Multi-dataset registry — consumed by download_data.sh
+# enabled: false → skipped by `./download_data.sh` with no args when there is no stable
+# direct file URL (portals, sign-in, many files). See primary_url / alternate_urls.
+#
+# Each dataset needs: id, label, metadata, download.url
+# Default path: {storage.root}/{dataset_prefix}/{label}__{suffix}
+#   suffix = metadata.geo_accession if set, else dataset id
+#
+storage:
+  root: /mnt/data
+  dataset_prefix: tumor_niche
+defaults:
+  download:
+    wget_extra_args: []
+datasets:
+  - id: GSE295862_xenium
+    label: adipose_obesity_wl_xenium
+    enabled: true
+    metadata:
+      title: Selective remodelling of the adipose niche in obesity and weight loss [Xenium]
+      geo_accession: GSE295862
+      geo_series_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE295862"
+      primary_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE295862"
+      alternate_urls:
+        - "https://singlecell.broadinstitute.org/single_cell/study/SCP3117/selective-remodelling-of-the-adipose-niche-in-obesity-and-weight-loss-spatial#study-download"
+      source_type: geo_and_scp
+      platform: Xenium
+      organism: Homo sapiens
+      n_participants: 8
+      n_samples: 12
+      n_cells: 25795
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 428
+      tissue: abdominal subcutaneous adipose tissue
+      condition: obesity
+      publication_doi: null
+      overall_design: |
+        Spatial transcriptomics was carried out in subcutaneous abdominal AT from 4 people with obesity before and after marked WL (paired samples), and in 4 healthy lean controls. All molecular phenotyping was carried out after overnight fast. AT samples were obtained intraoperatively from morbidly obese individuals (BMI>35kg/m2) undergoing laparoscopic bariatric surgery (gastric bypass or gastric sleeve) and healthy controls (BMI<26kg/m2) undergoing non-bariatric laparoscopic abdominal surgery. Subcutaneous AT was collected from abdominal surgical incision sites. Follow up subcutaneous AT samples were collected from the peri-umbilical region using needle biopsy at >5 months after weight loss intervention. Whole AT samples were snap frozen at collection and stored at -80C for future use. Participants were unrelated, between 20-70 years of age, from a multi-ethnic background, and free from systemic illnesses not related to obesity. People with treated T2D were excluded because of potential effects of hypoglycaemic medications on AT metabolism. All participants gave informed consent. The study complies with all relevant ethical regulations and was approved by the London – City Road and Hampstead Research Ethics Committee, United Kingdom (reference 13/LO/0477). The same study is available on the Single Cell Portal as SCP3117.
+      summary: |
+        Weight loss significantly improves metabolic and cardiovascular health in people with obesity. Adipose tissue remodelling is central to these varied and important clinical effects. However surprisingly little is known about the underlying mechanisms, presenting a barrier to treatment advances. Here we report a spatially resolved single nucleus atlas (171,247 cells, 70 people) investigating the cell types, molecular events and regulatory factors that reshape human adipose tissues, and thus metabolic health, in obesity and therapeutic weight loss. We discover selective vulnerability to senescence in metabolic, precursor and vascular cells and reveal senescence is potently reversed by weight loss. We define gene regulatory mechanisms and tissue signals that may drive a degenerative cycle of senescence, tissue injury and metabolic dysfunction. We find that weight loss reduces adipocyte hypertrophy and biomechanical constraint pathways, activating global metabolic flux and bioenergetic substrate cycles that may mediate systemic improvements in metabolic health. In the immune compartment, we demonstrate that weight loss represses obesity-induced macrophage infiltration but does not completely reverse activation, leaving these cells primed to trigger potential weight regain and worsen metabolic dysfunction. Throughout, we map cells to tissue niches to understand the collective determinants of tissue injury and recovery. Overall, our complementary single nucleus and spatial datasets offer unprecedented insights into the basis of obese adipose tissue dysfunction and its reversal by weight loss, and a key resource for mechanistic and therapeutic exploration.
+      st_download_url: "https://singlecell.broadinstitute.org/single_cell/study/SCP3117/selective-remodelling-of-the-adipose-niche-in-obesity-and-weight-loss-spatial#study-download OR GEO https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE295862"
+      paper_reference: Selective remodelling of the adipose niche in obesity and weight loss | Nature
+      access_policy: Open access
+      paired_he: 'No'
+      access_notes: Immediate download
+      n_tokens_estimate: 11040260
+    download:
+      url: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE295862&format=file"
+      wget_extra_args: []
+    storage: {}
+  - id: SCP3359_liver_mash_xenium
+    label: liver_mash_tma_xenium
+    enabled: false
+    metadata:
+      title: Hepatic adaptation to chronic metabolic stress primes tumorigenesis — liver TMA Xenium (Cell)
+      geo_accession: null
+      primary_url: "https://singlecell.broadinstitute.org/single_cell/study/SCP3359/metabolic-stress-primes-cancer-by-rebalancing-cell-and-tissue-functions-human-liver-tissue-microarray-spatial-transcriptomics#study-download"
+      source_type: single_cell_portal
+      platform: Xenium
+      organism: Homo sapiens
+      n_participants: 18
+      n_samples: 18
+      n_cells: 723466
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 477
+      tissue: liver
+      condition: MASH / control
+      publication_doi: null
+      overall_design: |
+        Cell-resolved spatial transcriptomics (Xenium) on a TMA from primary human liver — participants with MASH cirrhosis or controls. Portal lists ~723k cells and 477 genes.
+      summary: |
+        Study of chronic metabolic stress, hepatocyte identity, and spatial communities in human liver (Broad Single Cell Portal; DUOS may be required for download).
+      paper_reference: 'Hepatic adaptation to chronic metabolic stress primes tumorigenesis: Cell'
+      access_policy: Open access
+      paired_he: 'No'
+      access_notes: Immediate download
+      n_tokens_estimate: 345093282
+    download:
+      url: "https://singlecell.broadinstitute.org/single_cell/study/SCP3359/metabolic-stress-primes-cancer-by-rebalancing-cell-and-tissue-functions-human-liver-tissue-microarray-spatial-transcriptomics#study-download"
+      wget_extra_args: []
+    storage: {}
+  - id: zenodo_15341263_eac_spatial
+    label: esophageal_eac_spatial_yates
+    enabled: true
+    metadata:
+      title: Cell states and neighborhoods in distinct clinical stages of primary and metastatic esophageal adenocarcinoma
+      geo_accession: null
+      zenodo_record: '15341263'
+      primary_url: "https://zenodo.org/records/15341263"
+      source_type: zenodo
+      platform: Xenium
+      organism: Homo sapiens
+      n_participants: null
+      n_samples: 16 (6 donors)
+      n_cells: 558318
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 4999
+      tissue: esophageal junction
+      condition: ESCA
+      publication_doi: null
+      overall_design: |
+        Multiomic cohort (snRNA-seq, chromatin accessibility, spatial) for primary and metastatic esophageal adenocarcinoma; repository points to README inside Zenodo_upload.zip.
+      summary: |
+        Zenodo record for spatial profiling companion to Yates et al. EAC cohort paper.
+      access_policy: Open access
+      paired_he: 'No'
+      access_notes: Immediate download
+      n_tokens_estimate: 2791031682
+    download:
+      url: "https://zenodo.org/api/records/15341263/files/Zenodo_upload.zip/content"
+      wget_extra_args:
+        - -L
+    storage: {}
+  - id: SCP2927_glis3_ibd_human
+    label: glis3_ibd_spatial_human
+    enabled: false
+    metadata:
+      title: Bidirectional CRISPR screens — GLIS3 fibrotic circuit (human spatial + sc)
+      geo_accession: null
+      primary_url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2927/bidirectional-crispr-screens-decode-a-glis3-dependent-fibrotic-cell-circuit-human-datasets#study-download"
+      source_type: single_cell_portal
+      platform: Xenium
+      organism: Homo sapiens
+      n_participants: null
+      n_samples: 16
+      n_cells: 3382726
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 480
+      tissue: colon
+      condition: UC, CD or diverticulitis
+      publication_doi: 10.1038/s41586-025-09907-x
+      overall_design: |
+        Integrative single-cell and spatial profiling of intestinal tissues; genome-wide CRISPR screens implicate GLIS3 in IAF / IL-11 fibrotic axis. Portal aggregates millions of cells across modalities.
+      summary: |
+        Human datasets for Nature 2025 GLIS3 / IBD fibrosis study (portal download).
+      he_download_url: "https://zenodo.org/records/17518435"
+      paper_reference: Bidirectional CRISPR screens decode a GLIS3-dependent fibrotic cell circuit | Nature
+      access_policy: Open access
+      paired_he: 'Yes'
+      access_notes: Immediate download
+      additional_sample_metadata: Diagnosis, Gender, Age at diagnosis
+      n_tokens_estimate: 1623708480
+    download:
+      url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2927/bidirectional-crispr-screens-decode-a-glis3-dependent-fibrotic-cell-circuit-human-datasets#study-download"
+      wget_extra_args: []
+    storage: {}
+  - id: SCP3384_glis3_ibd_mouse
+    label: glis3_ibd_spatial_mouse
+    enabled: false
+    metadata:
+      title: Bidirectional CRISPR screens — GLIS3 fibrotic circuit (mouse spatial)
+      geo_accession: null
+      primary_url: "https://singlecell.broadinstitute.org/single_cell/study/SCP3384/bidirectional-crispr-screens-decode-a-glis3-dependent-fibrotic-cell-circuit-mouse-datasets#study-download"
+      alternate_urls:
+        - "https://doi.org/10.5281/zenodo.17518435"
+      source_type: single_cell_portal
+      platform: Xenium
+      organism: Mus musculus
+      n_participants: null
+      n_samples: 12
+      n_cells: 1990636
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 480
+      tissue: colon
+      condition: IBD
+      publication_doi: 10.1038/s41586-025-09907-x
+      overall_design: |
+        Mouse spatial and single-cell data matching the human GLIS3 study; H&E post-spatial imaging noted on Zenodo doi:10.5281/zenodo.17518435.
+      summary: |
+        Mouse companion portal study for GLIS3 / colitis fibrosis (Nature 2025).
+      he_download_url: "https://zenodo.org/records/17518435"
+      paper_reference: Bidirectional CRISPR screens decode a GLIS3-dependent fibrotic cell circuit | Nature
+      access_policy: Openn access
+      paired_he: 'Yes'
+      access_notes: Immediate download
+      tracker_notes: '12 mouse large intestines, representing three biological replicates from the following conditions: Glis3f/f;cre treated with DSS, Glis3f/f;cre treated with water, Glis3f/f treated with DSS and Glis3f/f treated with water.'
+      n_tokens_estimate: 955505280
+    download:
+      url: "https://singlecell.broadinstitute.org/single_cell/study/SCP3384/bidirectional-crispr-screens-decode-a-glis3-dependent-fibrotic-cell-circuit-mouse-datasets#study-download"
+      wget_extra_args: []
+    storage: {}
+  - id: manifold_chen_spatial_workbench
+    label: broad_manifold_chen_spatial
+    enabled: false
+    metadata:
+      title: The molecular cytoarchitecture of the adult mouse brain | Nature
+      geo_accession: null
+      primary_url: "https://broad.sc.manifold.ai/workbenches/77/files/workbench/data/Chen/spatial_data"
+      source_type: cloud_workbench
+      platform: Slide-seq
+      organism: Mus musculus
+      n_participants: null
+      n_samples: 100
+      n_cells: null
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 20000
+      tissue: brain
+      condition: healthy
+      publication_doi: null
+      overall_design: |
+        Internal/cloud file browser style resource; not a single wget URL. Access likely requires Broad/Manifold authentication.
+      summary: |
+        From url_list — inspect in browser; no automated wget target defined here.
+      alternate_urls:
+        - "https://drive.google.com/file/d/1S2VcjDFFeHUkb2Mc5pSccHAkIR5JKP1F/view"
+        - "https://docs.braincelldata.org/"
+      he_download_url: "https://drive.google.com/file/d/1S2VcjDFFeHUkb2Mc5pSccHAkIR5JKP1F/view"
+      access_policy: Restricted Broad access (Manifold)
+      paired_he: No (but NISSL available which is a stain for neurons and looks like HE)
+      access_notes: Immediate download
+      last_contact: 100 Slide-seq arrays/sections were sequenced and used in the final spatial dataset for analysis. These came from serial sections spaced ~100 µm apart (with histological adjacent sections used for registration)
+      tracker_notes: 'It seems this data is available as .h5ad freely at https://docs.braincelldata.org/: 100 Slide-seq arrays/sections were sequenced and used in the final spatial dataset for analysis. These came from serial sections spaced ~100 µm apart (with histological adjacent sections used for registration)'
+    download:
+      url: "https://broad.sc.manifold.ai/workbenches/77/files/workbench/data/Chen/spatial_data"
+      wget_extra_args: []
+    storage: {}
+  - id: zenodo_16848917_ist_benchmark_ffpe
+    label: ist_benchmark_ffpe_xenium_merscope_cosmx
+    enabled: true
+    metadata:
+      title: Systematic benchmarking of imaging spatial transcriptomics (FFPE) — processed data
+      geo_accession: null
+      zenodo_record: '16848917'
+      primary_url: "https://zenodo.org/records/16848917"
+      source_type: zenodo
+      platform: Xenium, CosMX, MERSCOPE
+      organism: Homo sapiens
+      n_participants: null
+      n_samples: 263
+      n_cells: 5017700
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: null
+      tissue: Mixed (lung, breast, multitissue)
+      condition: Mixed cancer and control
+      publication_doi: null
+      overall_design: |
+        Cross-platform iST benchmarking on serial FFPE sections; Zenodo includes Source_Data, gene_level, cell_level, and h5ad zip bundles.
+      summary: |
+        Wang et al. processed benchmark data on Zenodo (large zips; Source_Data.zip primary).
+      st_download_url: "http://zenodo.org/records/16848917"
+      paper_reference: Systematic benchmarking of imaging spatial transcriptomics platforms in FFPE tissues | Nature Communications
+      access_policy: Open access
+      paired_he: 'No'
+      access_notes: Immediate download
+      tracker_notes: TMA cores! 17 tumor types and 16 healthy tissue types, tTMA1 = 39 patients, 170 cores, tTMA2 = 26 patients, 48 cores, nTMA = 16 patients, 45 cores
+      n_tokens_estimate: 1570540100
+    download:
+      url: "https://zenodo.org/api/records/16848917/files/Source_Data.zip/content"
+      wget_extra_args:
+        - -L
+    storage: {}
+  - id: zenodo_8327576_mouse_cns_starmap
+    label: mouse_cns_starmap_plus_atlas
+    enabled: false
+    metadata:
+      title: Spatial atlas of the mouse central nervous system (STARmap PLUS)
+      geo_accession: null
+      zenodo_record: '8327576'
+      primary_url: "https://zenodo.org/records/8327576"
+      source_type: zenodo
+      platform: STARMap+
+      organism: Mus musculus
+      n_participants: null
+      n_samples: 1
+      n_cells: 1091280
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 1022
+      tissue: Brain
+      condition: Healthy
+      publication_doi: null
+      overall_design: |
+        ~1.09M cells, 1022 genes, subcellular voxels; many per-well CSVs on Zenodo — use record page or API to fetch all files (not a single archive in record).
+      summary: |
+        Mouse CNS STARmap PLUS atlas; download many files programmatically from Zenodo API.
+      paper_reference: Spatial atlas of the mouse central nervous system at molecular resolution | Nature
+      access_policy: Open access
+      paired_he: 'No'
+      access_notes: Immediate download
+      tracker_notes: This is actually in 3D!
+      n_tokens_estimate: 1115288160
+    download:
+      url: "https://zenodo.org/records/8327576"
+      wget_extra_args:
+        - -L
+    storage: {}
+  - id: SCP2640_hgsc_spatial_discovery
+    label: hgsc_ovarian_spatial_discovery
+    enabled: false
+    metadata:
+      title: HGSC spatial cohort — Discovery dataset (Xenium / spatial)
+      geo_accession: null
+      primary_url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2640/hgsc-spatial-cohort-discovery-dataset#study-download"
+      alternate_urls:
+        - "https://singlecell.broadinstitute.org/single_cell/study/SCP2707/hgsc-spatial-study-perturb-seq#study-download"
+      source_type: single_cell_portal
+      platform: CosMx
+      organism: Homo sapiens
+      n_participants: 94
+      n_samples: 100
+      n_cells: 491792
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 979
+      tissue: Ovaries
+      condition: HGSC
+      publication_doi: 10.1038/s41590-024-01943-5
+      overall_design: |
+        Discovery spatial data for Nat Immunol 2024 HGSC study; paper reports >2.5M cells in situ across 130 tumors; portal study lists subset metrics (e.g. 491,792 cells, 979-gene panel in UI).
+      summary: |
+        Broad SCP2640 — discovery arm with H&E and spatial outputs (DUOS-controlled download).
+      he_download_url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2640/hgsc-spatial-cohort-discovery-dataset#study-download"
+      paper_reference: Mapping spatial organization and genetic cell-state regulators to target immune evasion in ovarian cancer | Nature Immunology
+      access_policy: Open access
+      paired_he: 'Yes'
+      access_notes: Immediate download
+      tracker_notes: All these are the same paper just broke down according to technology
+      additional_sample_metadata: Age, stage, PFS, Survival, Treatment received, tumor genetics
+      n_tokens_estimate: 481464368
+    download:
+      url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2640/hgsc-spatial-cohort-discovery-dataset#study-download"
+      wget_extra_args: []
+    storage: {}
+  - id: SCP2641_hgsc_spatial_validation1
+    label: hgsc_ovarian_spatial_validation1
+    enabled: false
+    metadata:
+      title: HGSC spatial cohort — Validation 1 (Xenium)
+      geo_accession: null
+      primary_url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2641/hgsc-spatial-cohort-validation-1-dataset#study-download"
+      source_type: single_cell_portal
+      platform: Xenium
+      organism: Homo sapiens
+      n_participants: 94
+      n_samples: 34
+      n_cells: 447874
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 280
+      tissue: Ovaries
+      condition: HGSC
+      publication_doi: 10.1038/s41590-024-01943-5
+      overall_design: |
+        Validation 1 spatial arm — portal lists ~448k cells and 280-gene panel.
+      summary: |
+        Companion SCP2641 to HGSC spatial Nat Immunol 2024 cohort.
+      st_download_url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2641/hgsc-spatial-cohort-discovery-dataset#study-download"
+      he_download_url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2641/hgsc-spatial-cohort-discovery-dataset#study-download"
+      paper_reference: Mapping spatial organization and genetic cell-state regulators to target immune evasion in ovarian cancer | Nature Immunology
+      access_policy: Open access
+      paired_he: 'Yes'
+      access_notes: Immediate download
+      tracker_notes: Need to check whether these are registered I am not sure
+      n_tokens_estimate: 125404720
+    download:
+      url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2641/hgsc-spatial-cohort-validation-1-dataset#study-download"
+      wget_extra_args: []
+    storage: {}
+  - id: SCP2650_hgsc_spatial_validation2
+    label: hgsc_ovarian_spatial_validation2
+    enabled: false
+    metadata:
+      title: HGSC spatial cohort — Validation 2 (MERSCOPE)
+      geo_accession: null
+      primary_url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2650/hgsc-spatial-cohort-validation-2-dataset#study-download"
+      source_type: single_cell_portal
+      platform: MERFISH
+      organism: Homo sapiens
+      n_participants: 94
+      n_samples: 4
+      n_cells: 425578
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 140
+      tissue: Ovaries
+      condition: HGSC
+      publication_doi: 10.1038/s41590-024-01943-5
+      overall_design: |
+        Validation 2 — MERFISH/MERSCOPE-class data; portal ~426k cells, 140 genes.
+      summary: |
+        Companion SCP2650 (MERSCOPE) for HGSC spatial cohort.
+      st_download_url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2650/hgsc-spatial-cohort-discovery-dataset#study-download"
+      paper_reference: Mapping spatial organization and genetic cell-state regulators to target immune evasion in ovarian cancer | Nature Immunology
+      access_policy: Open access
+      paired_he: 'No'
+      access_notes: Immediate download
+      n_tokens_estimate: 59580920
+    download:
+      url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2650/hgsc-spatial-cohort-validation-2-dataset#study-download"
+      wget_extra_args: []
+    storage: {}
+  - id: SCP2644_hgsc_spatial_test1
+    label: hgsc_ovarian_spatial_test1
+    enabled: false
+    metadata:
+      title: HGSC spatial cohort — Test 1 (high-plex spatial)
+      geo_accession: null
+      primary_url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2644/hgsc-spatial-cohort-test-1-dataset#study-download"
+      alternate_urls:
+        - "https://singlecell.broadinstitute.org/single_cell/study/SCP2644/hgsc-spatial-cohort-discovery-dataset?label=B.cell&cluster=HGSC156%2C%20Omentum%20%28SMI6K_1_F00011%29&spatialGroups=--&annotation=celltypes--group--study&subsample=all"
+      source_type: single_cell_portal
+      platform: CosMx
+      organism: Homo sapiens
+      n_participants: 94
+      n_samples: 49
+      n_cells: 85821
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 6175
+      tissue: Ovaries
+      condition: HGSC
+      publication_doi: 10.1038/s41590-024-01943-5
+      overall_design: |
+        Test dataset with very high feature count in portal (6175 genes reported); ~86k cells in portal summary for this study object.
+      summary: |
+        SCP2644 Test 1 — same HGSC paper; url_list deep link preserved in alternate_urls.
+      st_download_url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2644/hgsc-spatial-cohort-discovery-dataset?label=B.cell&cluster=HGSC156%2C%20Omentum%20%28SMI6K_1_F00011%29&spatialGroups=--&annotation=celltypes--group--study&subsample=all"
+      paper_reference: Mapping spatial organization and genetic cell-state regulators to target immune evasion in ovarian cancer | Nature Immunology
+      access_policy: Open access
+      paired_he: 'No'
+      access_notes: Immediate download
+      n_tokens_estimate: 529443675
+    download:
+      url: "https://singlecell.broadinstitute.org/single_cell/study/SCP2644/hgsc-spatial-cohort-test-1-dataset#study-download"
+      wget_extra_args: []
+    storage: {}
+  - id: spatch_pku_portal
+    label: spatch_pku_crispr_spatial
+    enabled: false
+    metadata:
+      title: SPATCH — systematic benchmarking of high-throughput subcellular spatial transcriptomics across human tumors (Nat Commun)
+      geo_accession: null
+      primary_url: "https://spatch.pku-genomics.org/#/download"
+      source_type: web_portal
+      platform: Xenium, CosMx, Visium HD, Stereo-seq
+      organism: Homo sapiens
+      n_participants: null
+      n_samples: 15
+      n_cells: 6806663
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 5000
+      tissue: ovaries, liver, colon
+      condition: OV, HCC, COAD
+      publication_doi: null
+      overall_design: |
+        SPATCH portal (gene / dataset / download sections); SPA app — use browser for datasets.
+      summary: |
+        From url_list spatch.pku-genomics.org — interactive downloads, not a single wget URL.
+      publication_note: Nature Communications benchmarking (per tracker)
+      he_download_url: "https://spatch.pku-genomics.org/#/download"
+      paper_reference: Systematic benchmarking of high-throughput subcellular spatial transcriptomics platforms across human tumors | Nature Communications
+      access_policy: Open access
+      paired_he: 'Yes'
+      access_notes: Immediate download
+      tracker_notes: 'CAVEAT: for Visium HD the estimate comes from 8 micrometer bins. There are several technologies and several tissue types; breakdown of cell count per technology: Xenium 5K: 977,299 cells; CosMx 6K: 730,656 cells; Visium HD FFPE: 1,563,567 bins; Stereo-seq v1.3: 1,952,831 cells; Visium HD FF: 1,582,310 bins'
+      additional_sample_metadata: Stage/MSI/Age
+      n_tokens_estimate: 125450000000
+    download:
+      url: "https://spatch.pku-genomics.org/#/download"
+      wget_extra_args: []
+    storage: {}
+  - id: saha_human_anatomy_portal
+    label: saha_spatial_atlas_human_anatomy
+    enabled: false
+    metadata:
+      title: SAHA — Spatial Atlas of Human Anatomy (explorer + Zenodo community)
+      geo_accession: null
+      primary_url: "https://www.saha-project.org/data-explorer"
+      alternate_urls:
+        - "https://zenodo.org/communities/saha/"
+      source_type: web_portal
+      platform: Xenium, CosMx,
+      organism: Homo sapiens
+      n_participants: null
+      n_samples: null
+      n_cells: null
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: null
+      tissue: Colon, Liver, Prostate, Bone Marrow, Appendix, Ileum, Pancreas, Breast
+      condition: Healthy and cancer
+      publication_doi: 10.1038/s41587-025-02811-9
+      overall_design: |
+        Multimodal spatial reference initiative; data explorer lists many CosMx/Xenium runs; bulk download via Zenodo SAHA community.
+      summary: |
+        SAHA project — use Data Explorer and Zenodo community for downloads (not one URL).
+      access_note: 'Tracker: open access status / availability still being clarified; contact authors for ETA.'
+      he_download_url: "https://www.saha-project.org/data-explorer"
+      paper_reference: "https://www.nature.com/articles/s41587-025-02811-9#data-availability"
+      access_policy: Open access? not available yet
+      paired_he: Yes (for 44 samples)
+      access_notes: 'Tracker: open access status / availability still being clarified; contact authors for ETA.'
+    download:
+      url: "https://www.saha-project.org/data-explorer"
+      wget_extra_args: []
+    storage: {}
+  - id: GSE253474_covid_lung_spatial
+    label: covid_lung_spatial_ifn_response
+    enabled: true
+    metadata:
+      title: In situ single-cell profiling — IFI27 localisation during SARS-CoV-2 infection
+      geo_accession: GSE253474
+      geo_series_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE253474"
+      primary_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE253474"
+      source_type: geo
+      platform: CosMx
+      organism: Homo sapiens
+      n_participants: 16
+      n_samples: 116 FOV, 60 cores (per tracker)
+      n_cells: null
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 961
+      tissue: Lung
+      condition: Covid
+      publication_doi: null
+      overall_design: 'GEO summary: single-cell-resolved spatial transcriptomics of immune response in SARS-CoV-2 infection; macrophage IFI27 elevation near infected areas.'
+      summary: NCBI GEO GSE253474 — spatial in situ profiling (see series for platform details).
+      paper_reference: In situ single-cell profiling sheds light on IFI27 localisation during SARS-CoV-2 infection - PubMed
+      access_policy: Open access
+      paired_he: 'No'
+      access_notes: Immediate download
+      tracker_notes: 16 patients
+    download:
+      url: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE253474&format=file"
+      wget_extra_args: []
+    storage: {}
+  - id: GSE264334_xenium_topology
+    label: xenium_subcellular_topology_methods
+    enabled: true
+    metadata:
+      title: Multiscale topology classifies cell types in subcellular spatial transcriptomics [Xenium]
+      geo_accession: GSE264334
+      geo_series_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE264334"
+      primary_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE264334"
+      source_type: geo
+      platform: Xenium
+      organism: Homo sapiens
+      n_participants: null
+      n_samples: 1
+      n_cells: 30802
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 541
+      tissue: pancreas
+      condition: nephropathy (as listed in tracker — verify against paper)
+      publication_doi: null
+      overall_design: |
+        GEO lists 1 sample — topological integration of nanoscale spatial data with scRNA-seq (per series summary text on NCBI).
+      summary: |
+        Methods-focused Xenium spatial series on GEO (sample count per NCBI esummary).
+      he_download_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE264334"
+      paper_reference: Multiscale topology classifies cells in subcellular spatial transcriptomics - PMC
+      access_policy: Open access
+      paired_he: 'Yes'
+      access_notes: Immediate download
+      n_tokens_estimate: 16663882
+    download:
+      url: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE264334&format=file"
+      wget_extra_args: []
+    storage: {}
+  - id: GSE234713_ibd_cosmx_colon
+    label: ibd_colon_cosmx_nanostring
+    enabled: true
+    metadata:
+      title: IBD CosMx — NanoString spatial data from colonic mucosa
+      geo_accession: GSE234713
+      geo_series_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE234713"
+      primary_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE234713"
+      alternate_urls:
+        - "https://soar.fsm.northwestern.edu/"
+      source_type: geo
+      platform: CosMx
+      organism: Homo sapiens
+      n_participants: null
+      n_samples: 9 samples, 19 FOV each
+      n_cells: 20406
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 1000
+      tissue: Colon
+      condition: IBD
+      publication_doi: null
+      overall_design: |
+        CosMx single-cell-resolution spatial transcriptomics on human intestine; url_list also points to Northwestern SOAR for related resources.
+      summary: |
+        GEO superseries-style deposition for IBD CosMx colon data (see GSM table on GEO).
+      publication_note: PubMed 37495570 (per tracker row 21)
+      st_download_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE234713 OR https://soar.fsm.northwestern.edu/"
+      access_policy: Open access
+      paired_he: 'No'
+      access_notes: Immediate download
+      paper_reference: "https://pubmed.ncbi.nlm.nih.gov/37495570/"
+    download:
+      url: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE234713&format=file"
+      wget_extra_args: []
+    storage: {}
+  - id: GSE289194_dlbcl_cosmx_codex
+    label: dlbcl_cosmx_codex_lymphoma
+    enabled: true
+    metadata:
+      title: 6K-plex RNA CosMx — DLBCL sections (with CODEX)
+      geo_accession: GSE289194
+      geo_series_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE289194"
+      primary_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE289194"
+      source_type: geo
+      platform: CosMx
+      organism: Homo sapiens
+      n_participants: null
+      n_samples: 78 DLBCL, 5 controls
+      n_cells: 1322740
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 1000
+      tissue: Lymph node
+      condition: DLBCL
+      publication_doi: 10.1038/s41588-025-02353-5
+      overall_design: |
+        CosMx with 6K-plex RNA and CODEX for DLBCL spatial immune and stromal architecture.
+      summary: |
+        GEO GSE289194 — large sample count CosMx/CODEX DLBCL cohort.
+      paper_reference: "https://www.nature.com/articles/s41588-025-02353-5#data-availability"
+      access_policy: Open access
+      paired_he: 'No'
+      access_notes: Immediate download
+      n_tokens_estimate: 1322740000
+    download:
+      url: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE289194&format=file"
+      wget_extra_args: []
+    storage: {}
+  - id: zenodo_16877090_phgg_cosmx
+    label: pediatric_hgg_cosmx_myeloid
+    enabled: true
+    metadata:
+      title: Pediatric HGG — CosMx spatial (SPP1+/GPNMB+ myeloid population)
+      geo_accession: null
+      zenodo_record: '16877090'
+      primary_url: "https://zenodo.org/records/16877090"
+      source_type: zenodo
+      platform: CosMx
+      organism: Homo sapiens
+      n_participants: null
+      n_samples: 50 FOV (per tracker)
+      n_cells: null
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: null
+      tissue: Brain
+      condition: Glioma
+      publication_doi: 10.1093/neuped/wuaf002
+      overall_design: |
+        Raw CosMx files for Neuropediatrics 2025 paper; bulk RNA restricted (EGA); cites public DMG scRNA GSE184357 and Visium GSE194329 as comparators.
+      summary: |
+        Zenodo cosmx.zip + FOV-sample metadata for pediatric HGG CosMx study.
+      publication_url: "https://academic.oup.com/neuro-onc-peds/article/1/1/wuaf002/8232652"
+      paper_reference: "https://academic.oup.com/neuro-onc-peds/article/1/1/wuaf002/8232652?login=true"
+      access_policy: Open access
+      paired_he: 'No'
+      access_notes: Immediate download
+    download:
+      url: "https://zenodo.org/api/records/16877090/files/cosmx.zip/content"
+      wget_extra_args:
+        - -L
+    storage: {}
+  - id: tenx_visium_human_crc_demo
+    label: tenx_visium_crc_marketing_dataset
+    enabled: false
+    metadata:
+      title: Visium HD human CRC — 10x demo / linked Nat Genet paper
+      geo_accession: null
+      primary_url: "https://www.10xgenomics.com/platforms/visium/product-family/dataset-human-crc"
+      source_type: commercial_landing
+      platform: Visium HD
+      organism: Homo sapiens
+      n_participants: null
+      n_samples: 5
+      n_cells: 1188607
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 18050
+      tissue: colon
+      condition: colorectal adenocarcinoma (COAD)
+      publication_doi: 10.1038/s41588-025-02193-3
+      overall_design: |
+        Marketing / resource page requires form submission to access files — not wget-able without credentials.
+      summary: |
+        From url_list — register on 10x site to download demo CRC Visium/Xenium-related bundle.
+      alternate_urls:
+        - "https://www.10xgenomics.com/platforms/visium/product-family/dataset-human-crc"
+      he_download_url: "https://www.10xgenomics.com/platforms/visium/product-family/dataset-human-crc"
+      paper_reference: "https://www.nature.com/articles/s41588-025-02193-3"
+      access_policy: Open access
+      paired_he: 'Yes'
+      access_notes: Immediate download
+      tracker_notes: The cells are actually segmented using bin2cell in this estimate
+      additional_sample_metadata: Stage/sex/age
+      n_tokens_estimate: 21454356350
+    download:
+      url: "https://www.10xgenomics.com/platforms/visium/product-family/dataset-human-crc"
+      wget_extra_args: []
+    storage: {}
+  - id: GSE263793_ad_mouse_microglia_astrocyte_spatial
+    label: alzheimer_mouse_microglia_astrocyte_spatial
+    enabled: true
+    metadata:
+      title: Microglia–astrocyte cross-talk in amyloid plaque niche (AD mouse) — spatial transcriptomics
+      geo_accession: GSE263793
+      geo_series_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE263793"
+      primary_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE263793"
+      alternate_urls:
+        - "https://soar.fsm.northwestern.edu/"
+      source_type: geo
+      platform: CosMx
+      organism: Mus musculus
+      n_participants: null
+      n_samples: 2
+      n_cells: 28233
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 961
+      tissue: Brain
+      condition: Alzeihmer's
+      publication_doi: null
+      overall_design: |
+        GEO SuperSeries linking subseries; spatial transcriptomics around amyloid plaques in mouse AD models. url_list also references SOAR for related Northwestern data.
+      summary: |
+        GSE263793 — download full superseries tar from GEO; inspect subseries for modalities.
+      st_download_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE263793 OR https://soar.fsm.northwestern.edu/"
+      paper_reference: "https://pubmed.ncbi.nlm.nih.gov/38819990/"
+      access_policy: Open access
+      paired_he: 'No'
+      access_notes: Immediate download
+    download:
+      url: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE263793&format=file"
+      wget_extra_args: []
+    storage: {}
+  - id: figshare_soar_spatial_pharma_shares
+    label: figshare_spatial_pharma_soar_mirror
+    enabled: false
+    metadata:
+      title: Pharmacogenomic landscape of patient-derived colonic organoids — CosMx (Nat Commun)
+      geo_accession: null
+      primary_url: "https://figshare.com/s/da487c769a6040427695"
+      alternate_urls:
+        - "https://figshare.com/s/e8ad68ff0b4627351df0"
+        - "https://soar.fsm.northwestern.edu/"
+      source_type: figshare
+      platform: CosMx
+      organism: Homo sapiens
+      n_participants: null
+      n_samples: 9
+      n_cells: 31142
+      n_nuclei: null
+      n_spots: null
+      n_genes_panel: 961
+      tissue: Colon
+      condition: UC / Normal
+      publication_doi: 10.1038/s41467-024-45665-6
+      overall_design: |
+        Two Figshare shared links from url_list (open in browser for dataset-specific READMEs); SOAR listed as alternate host for related spatial/pharma resources.
+      summary: |
+        Placeholder registry row — inspect each Figshare share and SOAR for concrete metadata.
+      st_download_url: "https://figshare.com/s/da487c769a6040427695 / https://figshare.com/s/e8ad68ff0b4627351df0 OR https://soar.fsm.northwestern.edu/"
+      paper_reference: "https://www.nature.com/articles/s41467-024-45665-6"
+      access_policy: Open access
+      paired_he: 'No'
+      access_notes: Immediate download
+    download:
+      url: "https://figshare.com/s/da487c769a6040427695"
+      wget_extra_args: []
+    storage: {}
