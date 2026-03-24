@@ -1,0 +1,505 @@
+storage:
+  root: /mnt/data
+  dataset_prefix: spatial_niche
+defaults:
+  download:
+    wget_extra_args: []
+datasets:
+  - id: GSE300147_xenium
+    label: HNSCC_spatial_TCR_Xenium_McCord_2025
+    enabled: false
+
+    metadata:
+      title: Xenium Spatial Transcriptomics of Head and Neck Single Cell Carcinoma
+      geo_accession: GSE300147
+      primary_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE300147"
+
+      platform: Xenium In Situ Analyzer (GPL33762)
+      technology: Xenium spatial transcriptomics
+
+      organism: Homo sapiens
+
+      n_participants: 10
+      n_samples: 18
+      n_samples_tumor: 17
+      n_samples_control: 1
+
+      n_cells: null
+      n_spots: null
+
+      n_genes_panel: 477
+      panel_design:
+        base_panel: 377
+        custom_probes: 100
+        includes:
+          - TCR_CDR3_probes
+          - T_cell_markers
+          - HPV_genes
+          - tumor_markers
+
+      tissue: Head and Neck Squamous Cell Carcinoma (HNSCC)
+      condition: Cancer
+
+      publication_doi: "10.1101/2025.08.06.668925"
+      publication_status: preprint
+
+      overall_design: |
+        Ten fresh-frozen HNSCC tumors (including HPV+ and HPV- cases) and one ameloblastoma control tumor were profiled using Xenium spatial transcriptomics. 
+        Seven tumors were processed in technical replicates, resulting in 17 HNSCC tumor sections. 
+        A 377-gene Xenium panel was combined with 100 custom probes targeting TCR CDR3 sequences and additional immune and tumor genes. 
+        This enabled single-cell resolution spatial profiling of gene expression and T cell clonotypes within intact tumor tissue.
+
+      summary: |
+        This dataset provides single-cell resolution spatial transcriptomics of HNSCC tumors using Xenium, including custom probes targeting TCR CDR3 regions. 
+        The data enables spatial mapping of T cell clones within tumors and characterization of their local microenvironment. 
+        Technical replicates and inclusion of a non-HNSCC tumor control support analysis of spatial variability and specificity.
+
+      has_spatial: true
+      has_tcr: true
+      tcr_type: targeted_spatial_probes
+      has_single_cell: true
+
+      st_resolution: single_cell
+      paired_he: true
+
+      access_policy: Open access
+      access_notes: Large dataset (~47GB); includes H5, Parquet, and TIFF files
+
+      bioproject: PRJNA1279130
+
+      related_datasets:
+        scRNA_seq: GSE287301
+        pbmc_tcr_seq: GSE285951
+
+      n_tokens_estimate: null
+
+    download:
+      url: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE300147&format=file"
+      wget_extra_args: []
+
+    storage: {}
+
+  - id: GSE277080_spatial_touchstone
+    label: Spatial_Touchstone_multiplatform_benchmark_2025
+    enabled: false
+
+    metadata:
+      title: Standardized metrics for assessment and reproducibility of imaging-based spatial transcriptomics datasets
+      geo_accession: GSE277080
+      primary_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE277080"
+
+      publication_doi: "10.1038/s41587-025-02811-9"
+      publication_status: published
+
+      platforms:
+        - Xenium (GPL33762)
+        - CosMx SMI (GPL33484)
+
+      modalities:
+        - spatial_transcriptomics
+        - spatial_proteomics
+        - snRNA_seq
+
+      organism: Homo sapiens
+
+      n_samples: 38   # GEO samples (scans)
+      n_assays_total: 76   # ST dataset assays (from paper)
+      n_profiles_total: 203   # combined ST + public profiles (paper summary)
+
+      n_cells_total: 8000000   # ST dataset approx  [oai_citation:1‡Plummer et al. - 2025 - Standardized metrics for assessment and reproducibility of imaging-based spatial transcriptomics dat.pdf](sediment://file_00000000924471f88d19b91a6e5ef250)
+      n_cells_portal: 33000000   # full STP scale
+
+      tissues:
+        - appendix
+        - colon
+        - pancreas
+        - ileum
+        - breast_cancer
+        - prostate_cancer
+
+      condition:
+        - normal
+        - cancer
+
+      n_genes_panel:
+        Xenium:
+          - 377   # multi-tissue panel
+          - 380   # breast panel
+        CosMx:
+          - 950 + 50 add-on
+        Protein_panel:
+          - 64
+
+      overall_design: |
+        The Spatial Touchstone (ST) project is a multi-site, multi-platform benchmarking study designed to evaluate reproducibility and performance of imaging-based spatial transcriptomics technologies.
+        Formalin-fixed paraffin-embedded (FFPE) tissues from six tissue types (normal and cancer) were profiled across multiple institutions using Xenium and CosMx platforms with standardized operating procedures (STSOPs).
+        Serial sections were processed across sites to assess inter-site and intra-site reproducibility.
+        Matched snRNA-seq (snPATHO-seq) data were generated as a reference for evaluating transcriptional accuracy and cell type annotation.
+        Spatial proteomics (CosMx protein panel) was also performed for multi-omic integration.
+
+      summary: |
+        This dataset provides a standardized benchmarking resource for imaging-based spatial transcriptomics.
+        It introduces quantitative metrics for evaluating data quality, including sensitivity, signal-to-noise ratio, dynamic range, sparsity, entropy, and segmentation accuracy.
+        The Spatial Touchstone dataset demonstrates high reproducibility across platforms and sites and establishes standardized protocols and computational tools (SpatialQM) for cross-platform comparison.
+        The associated Spatial Touchstone Portal integrates over 200 spatial profiles, enabling benchmarking against public datasets.
+
+      has_spatial: true
+      has_proteomics: true
+      has_single_cell: true
+
+      is_benchmark_dataset: true
+      is_multiplatform: true
+      is_multisite: true
+
+      st_resolution: single_cell
+
+      paired_he: true
+
+      access_policy: Open access
+      access_notes: Large dataset (~206GB); includes CSV and image data
+
+      bioproject: PRJNA1160328
+
+      associated_resource:
+        portal: "https://www.spatialtouchstone.org"
+        software: "https://github.com/Center-for-Spatial-OMICs/SpatialQM"
+
+      n_tokens_estimate: null
+
+    download:
+      url: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE277080&format=file"
+      wget_extra_args: []
+
+    storage: {}
+
+
+  - id: Cervilla2026_xenium_benchmark
+    label: Xenium_MT_vs_5K_multicancer_benchmark
+    enabled: false
+
+    metadata:
+      title: A technical comparison of spatial transcriptomics platforms across six cancer types
+      primary_url: "https://doi.org/10.1186/s13059-026-03937-y"
+
+      publication_doi: "10.1186/s13059-026-03937-y"
+      publication_status: published
+
+      platforms:
+        - Xenium (MT panel)
+        - Xenium Prime (5K panel)
+
+      modalities:
+        - spatial_transcriptomics
+
+      organism: Homo sapiens
+
+      dataset_type: benchmark
+      is_multiplatform: true
+      is_same_sample_comparison: true
+
+      n_participants: 6
+      n_samples: 6   # one tumor per cancer type
+
+      tissues:
+        - breast_cancer
+        - colorectal_cancer
+        - lung_cancer
+        - lymphoma
+        - ovarian_cancer
+        - bladder_cancer
+
+      condition: cancer
+
+      n_cells:
+        xenium_total: 5809890   # approx from paper
+        cosmx_total: 667916     # for reference
+
+      panel_types:
+        xenium_mt:
+          genes: 377
+        xenium_5k:
+          genes: 5000
+
+      data_structure:
+        axes:
+          - cancer_type
+          - panel_type
+
+        panel_types:
+          - xeniumMT
+          - xenium5K
+
+        cancer_types:
+          - breast
+          - colorectal
+          - lung
+          - lymphoma
+          - ovarian
+
+      overall_design: |
+        Six FFPE tumor samples (one per cancer type) were serially sectioned and profiled across multiple spatial transcriptomics platforms.
+        Xenium data was generated using both the 377-gene multi-tissue panel (XeniumMT) and the 5000-gene Xenium Prime panel (Xenium5K).
+        Consecutive tissue sections were used to enable direct comparison between platforms and gene panels while controlling for biological variability.
+        Spatial data were aligned across platforms to compare transcript detection, spatial coherence, cell type composition, and gene-level concordance.
+
+      summary: |
+        This dataset provides a controlled benchmark comparing Xenium gene panels across multiple cancer types.
+        It demonstrates a trade-off between gene coverage and per-gene sensitivity: larger panels (5K) increase transcriptome breadth but reduce detection efficiency per gene.
+        The dataset enables analysis of how panel size affects spatial signal, cell type annotation, and downstream biological interpretation.
+
+      has_spatial: true
+      has_single_cell: true
+
+      st_resolution: single_cell
+      paired_he: true
+
+      key_features:
+        - same_sample_cross_platform
+        - panel_size_comparison
+        - spatial_alignment_across_modalities
+
+      access_policy: Open access
+      access_notes: Zenodo-hosted dataset; multiple zip archives per cancer and panel
+
+      n_tokens_estimate: null
+
+    download:
+      url: https://zenodo.org/api/records/18000256/files-archive
+      files:
+        - xenium5K_Breast.zip
+        - xenium5K_Colorectal.zip
+        - xenium5K_Lung.zip
+        - xenium5K_Lymphoma.zip
+        - xenium5K_Ovarian.zip
+        - xeniumMT_Breast.zip
+        - xeniumMT_Colorectal.zip
+        - xeniumMT_Lung.zip
+        - xeniumMT_Lymphoma.zip
+        - xeniumMT_Ovarian.zip
+
+    storage: {}
+
+  - id: GSE243168_xenium
+    label: Breast_cancer_multimodal_Xenium_Janesick_2023
+    enabled: false
+
+    metadata:
+      title: High resolution mapping of the tumor microenvironment using integrated single-cell, spatial and in situ analysis [Xenium]
+      geo_accession: GSE243168
+      primary_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE243168"
+
+      publication_doi: "10.1038/s41467-023-43458-x"
+      publication_status: published
+
+      platform: Xenium In Situ Analyzer (GPL33762)
+      modalities:
+        - spatial_transcriptomics
+
+      organism: Homo sapiens
+
+      n_participants: 2
+      n_samples: 3
+      n_replicates: 2
+
+      n_cells: null   # not explicitly in GEO; ~100k–300k per section from refs
+
+      tissue: breast_cancer
+      condition: cancer
+
+      disease_subtypes:
+        - ER+/HER2+/PR-
+        - ER-/HER2+/PR-
+
+      preservation: FFPE
+
+      n_genes_panel: ~300   # inferred (~313 targets from known dataset)
+
+      overall_design: |
+        Two FFPE human breast cancer samples were profiled using Xenium spatial transcriptomics.
+        Sample 1 was profiled with two technical replicates, while Sample 2 was profiled once.
+        Consecutive tissue sections were also used for Visium spatial transcriptomics and single-cell RNA-seq,
+        enabling cross-modal integration across spatial and single-cell technologies.
+
+      summary: |
+        This dataset demonstrates integration of Xenium spatial transcriptomics with single-cell RNA-seq and Visium data
+        to characterize tumor heterogeneity in breast cancer.
+        It identifies distinct tumor subtypes, spatial cell neighborhoods, and rare boundary cell populations,
+        highlighting the value of combining spatial and single-cell modalities.
+
+      has_spatial: true
+      has_single_cell: true
+      has_multimodal_pairing: true
+
+      dataset_type: multimodal_integration
+
+      st_resolution: single_cell
+      paired_he: true
+
+      parent_dataset: GSE243280
+
+      access_policy: Open access
+      access_notes: GEO raw archive (~29GB); includes CSV, JSON, TIFF, TSV
+
+      bioproject: PRJNA1017494
+
+      n_tokens_estimate: null
+
+    download:
+      url: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE243168&format=file"
+      wget_extra_args: []
+
+    storage: {}
+
+  - id: GSE280634_xenium
+    label: PDAC_CAF_spatial_Xenium_2024
+    enabled: false
+
+    metadata:
+      title: Xenium Spatial Transcriptomics with human breast cell typing panel in human treatment naïve primary PDAC
+      geo_accession: GSE280634
+      primary_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE280634"
+
+      publication_doi: "10.1016/j.celrep.2024.114972"
+      publication_status: published
+
+      platform: Xenium In Situ Analyzer (GPL33762)
+      modalities:
+        - spatial_transcriptomics
+
+      organism: Homo sapiens
+
+      n_participants: 8
+      n_samples: 8
+
+      tissue: pancreatic_ductal_adenocarcinoma
+      condition: cancer
+      treatment_status: treatment_naive
+
+      preservation: FFPE
+
+      n_genes_panel: 280
+      panel_type: predesigned_breast_cell_typing
+
+      panel_note: |
+        A human breast cell typing panel was used due to broad gene coverage,
+        although the tissue profiled is PDAC. This may bias gene representation.
+
+      overall_design: |
+        Eight independent treatment-naive human PDAC tumors were profiled using Xenium spatial transcriptomics.
+        A 280-gene predesigned breast cell typing panel was used to characterize spatial organization of tumor and stromal cells.
+        The study focuses on the spatial positioning of cancer-associated fibroblasts (CAFs) relative to vasculature.
+
+      summary: |
+        This dataset investigates spatial metabolic interactions in the PDAC tumor microenvironment,
+        showing that cancer-associated fibroblasts are positioned closer to vasculature and may support tumor cells via lipid metabolism.
+        Spatial transcriptomics reveals microenvironmental organization relevant to tumor survival under hypoxia.
+
+      has_spatial: true
+      has_single_cell: true
+
+      dataset_type: cohort_spatial
+
+      st_resolution: single_cell
+      paired_he: true
+
+      biological_focus:
+        - tumor_microenvironment
+        - fibroblasts
+        - metabolism
+        - hypoxia
+
+      access_policy: Open access
+      access_notes: Includes H5AD (~3.2GB) and raw bundle (~48GB)
+
+      bioproject: PRJNA1179871
+
+      n_tokens_estimate: null
+
+    download:
+      url: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE280634&format=file&file=GSE280634%5Fdata%5Ffiles%2Etar%2Egz"
+      url_2: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE280634&format=file&file=GSE280634%5FXenium%5FCell%5FTyping%2Eh5ad"
+      wget_extra_args: []
+
+    storage: {}
+
+  - id: GSE280314_xenium_crc
+    label: CRC_immune_spatial_Xenium_2025
+    enabled: true
+
+    metadata:
+      title: Characterization of immune cell populations in the tumor microenvironment of colorectal cancer using high definition spatial profiling [Xenium]
+      geo_accession: GSE280314   # NOTE: Xenium files reference 280314
+      primary_url: "https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE280634"
+
+      publication_doi: "10.1038/s41588-025-01735-x"
+      publication_status: published
+
+      platform: Xenium In Situ Analyzer (GPL33762)
+      modalities:
+        - spatial_transcriptomics
+
+      organism: Homo sapiens
+
+      n_participants: 3
+      n_samples: 3
+
+      tissue: colorectal_cancer
+      condition: cancer
+
+      preservation: FFPE
+
+      n_genes_panel: ~420
+      panel_design:
+        base_panel: 322   # colon panel
+        custom_add_on: 100
+        includes:
+          - TME_markers
+          - immune_markers
+          - fibroblast_markers
+          - TCR_clonotype_probes
+
+      key_feature_note: |
+        Includes custom probes targeting TCR clonotypes, enabling spatial localization of clonally expanded T cells.
+
+      overall_design: |
+        Three human colorectal cancer samples were profiled using Xenium spatial transcriptomics with a colon-specific gene panel supplemented by custom genes.
+        Serial sections were used alongside Visium HD and single-cell immune profiling to build an integrated atlas.
+        The study focuses on spatial organization of immune populations, including macrophage subtypes and clonally expanded T cells.
+
+      summary: |
+        This dataset characterizes immune cell populations in the colorectal cancer tumor microenvironment using spatial transcriptomics.
+        It identifies spatially distinct macrophage subpopulations and localizes clonally expanded T cells within the tumor.
+        Integration with single-cell and Visium HD data enables detailed mapping of immune niches at the tumor periphery.
+
+      has_spatial: true
+      has_single_cell: true
+      has_targeted_tcr: true
+
+      dataset_type: cohort_spatial
+      subtype: immune_targeted_spatial
+
+      st_resolution: single_cell
+      paired_he: true
+
+      biological_focus:
+        - tumor_microenvironment
+        - immune_cells
+        - macrophages
+        - T_cells
+        - clonality
+
+      parent_dataset: GSE280318
+
+      access_policy: Open access
+      access_notes: Multiple Xenium output bundles (~12–15GB each)
+
+      bioproject: PRJNA1177832
+
+      n_tokens_estimate: null
+
+    download:
+      url: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE280314&format=file&file=GSE280314%5FXenium%5FV1%5FHuman%5FColon%5FCancer%5FP1%5FCRC%5FAdd%5Fon%5FFFPE%5Fouts%2Ezip"
+      url_2: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE280314&format=file&file=GSE280314%5FXenium%5FV1%5FHuman%5FColon%5FCancer%5FP2%5FCRC%5FAdd%5Fon%5FFFPE%5Fouts%2Ezip"
+      url_3: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE280314&format=file&file=GSE280314%5FXenium%5FV1%5FHuman%5FColon%5FCancer%5FP5%5FCRC%5FAdd%5Fon%5FFFPE%5Fouts%2Ezip"
+      url_4: "https://www.ncbi.nlm.nih.gov/geo/download/?acc=GSE280314&format=file&file=GSE280314%5Fgene%5Fpanel%2Ejson%2Egz"
+    storage: {}

@@ -5,6 +5,10 @@ Each file is saved with ``wget -O <dest>/<sensible_name>`` (not ``-P`` + URL bas
 Names are inferred (GEO → ``{GSE}_GEO_series_supplement.tar``, Zenodo API → ``zenodo_{id}_{file}``)
 or set per dataset as ``download.output_filename`` in YAML.
 
+Multiple URLs per dataset: use ``download.url`` plus ``download.url_2``, ``url_3``, … and/or a
+``download.urls`` list (each entry a string or ``{url: ..., output_filename: ..., wget_extra_args: ...}``).
+GEO per-file download links with a ``file=`` query parameter infer the basename automatically.
+
 Rename already-downloaded blobs (no re-fetch): scan manifests under ``storage.root``,
 pick the largest archive that passes integrity checks, rename to the same inferred name
 as fresh downloads: ``--rename-existing`` (dry-run), then ``--rename-existing --apply``.
@@ -29,6 +33,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, NamedTuple
+from urllib.parse import parse_qs, unquote, urlparse
 
 import yaml
 
@@ -174,6 +179,23 @@ def _sanitize_filename(name: str) -> str:
     return out if out else "download.bin"
 
 
+def _geo_file_query_basename(url: str) -> str | None:
+    """If this is a GEO file download URL, return the ``file=`` query basename (decoded)."""
+    u = url.lower()
+    if "ncbi.nlm.nih.gov/geo" not in u and "/geo/download/" not in u:
+        return None
+    q = urlparse(url).query
+    if not q:
+        return None
+    vals = parse_qs(q).get("file")
+    if not vals or not isinstance(vals[0], str):
+        return None
+    raw = unquote(vals[0]).strip()
+    if not raw:
+        return None
+    return Path(raw).name
+
+
 def _infer_output_filename(
     ds_id: str,
     url: str,
@@ -187,7 +209,14 @@ def _infer_output_filename(
 
     u = url.lower()
     geo = meta.get("geo_accession")
-    if isinstance(geo, str) and geo.strip() and ("ncbi.nlm.nih.gov/geo" in u or "/geo/download/" in u):
+    geo_file = _geo_file_query_basename(url)
+    if (
+        isinstance(geo, str)
+        and geo.strip()
+        and ("ncbi.nlm.nih.gov/geo" in u or "/geo/download/" in u)
+    ):
+        if geo_file:
+            return _sanitize_filename(geo_file)
         return f"{geo.strip()}_GEO_series_supplement.tar"
 
     m = _ZENODO_FILE_RE.search(url)
@@ -227,6 +256,87 @@ def _strip_wget_output_location_flags(args: list[str]) -> list[str]:
         out.append(a)
         i += 1
     return out
+
+
+def _parse_urls_list_item(raw: Any, ds_id: str, idx_ctx: str) -> tuple[str, dict[str, Any]]:
+    """Parse one element of ``download.urls`` into URL string and optional per-asset fields."""
+    if isinstance(raw, str):
+        s = raw.strip()
+        if not s:
+            _die(f"{idx_ctx}: empty URL string")
+        return s, {}
+    if isinstance(raw, dict):
+        u = raw.get("url")
+        if not isinstance(u, str) or not u.strip():
+            _die(f'{idx_ctx} must include non-empty string key "url"')
+        return u.strip(), raw
+    _die(f'{idx_ctx} must be a URL string or a mapping with "url"')
+
+
+def _collect_download_url_specs(dl: dict[str, Any], ds_id: str) -> list[tuple[str, dict[str, Any]]]:
+    """Return ordered ``(url, per_asset_dict)`` pairs for wget.
+
+    Supported forms (combined in this order): top-level ``url``, ``url_2``, ``url_3``, …,
+    then each entry of ``urls:`` (string or ``{url: ..., output_filename: ..., wget_extra_args: ...}``).
+    """
+    specs: list[tuple[str, dict[str, Any]]] = []
+
+    top = dl.get("url")
+    if isinstance(top, str) and top.strip():
+        specs.append((top.strip(), {}))
+
+    numbered_keys: list[tuple[int, str]] = []
+    for k in dl:
+        m = re.fullmatch(r"url_(\d+)", k)
+        if m:
+            numbered_keys.append((int(m.group(1)), k))
+    numbered_keys.sort(key=lambda t: t[0])
+    for _, k in numbered_keys:
+        v = dl[k]
+        if not isinstance(v, str) or not v.strip():
+            _die(f"datasets[{ds_id}].download.{k} must be a non-empty string")
+        specs.append((v.strip(), {}))
+
+    urls_list = dl.get("urls")
+    if urls_list is not None:
+        if not isinstance(urls_list, list):
+            _die(f"datasets[{ds_id}].download.urls must be a list")
+        for i, item in enumerate(urls_list):
+            u, ov = _parse_urls_list_item(item, ds_id, f"datasets[{ds_id}].download.urls[{i}]")
+            specs.append((u, ov))
+
+    if not specs:
+        _die(
+            f"datasets[{ds_id}].download must declare at least one URL "
+            f'("url", "url_2", …, and/or "urls": [...])'
+        )
+
+    return specs
+
+
+def _infer_dl_for_asset(dl: dict[str, Any], asset_ov: dict[str, Any]) -> dict[str, Any]:
+    """YAML slice passed to ``_infer_output_filename`` for one asset (drops URL keys)."""
+    base: dict[str, Any] = {
+        k: v
+        for k, v in dl.items()
+        if k not in ("url", "urls", "wget_extra_args") and re.fullmatch(r"url_\d+", k) is None
+    }
+    ofn = asset_ov.get("output_filename")
+    if isinstance(ofn, str) and ofn.strip():
+        base = {**base, "output_filename": ofn.strip()}
+    return base
+
+
+def _wget_args_for_asset(
+    global_wget: list[str],
+    dataset_extra: list[str],
+    asset_ov: dict[str, Any],
+    per_asset_wget_ctx: str,
+) -> list[str]:
+    """Merge default → dataset → per-asset ``wget_extra_args`` (last non-empty list wins per stage)."""
+    merged_ds = _strip_wget_output_location_flags(_merge_wget_args(global_wget, dataset_extra))
+    per = _as_str_list(asset_ov.get("wget_extra_args"), per_asset_wget_ctx)
+    return _strip_wget_output_location_flags(_merge_wget_args(merged_ds, per))
 
 
 def _registry_download_by_id(cfg_path: Path) -> dict[str, dict[str, Any]]:
@@ -493,8 +603,25 @@ def run_rename_existing_downloads(
 
         dl_existing = manifest.get("download")
         dl_m: dict[str, Any] = dl_existing if isinstance(dl_existing, dict) else {}
-        url = dl_m.get("url")
-        if not isinstance(url, str) or not url.strip():
+        files_m = dl_m.get("files")
+        if isinstance(files_m, list) and len(files_m) > 1:
+            print(
+                f"[{ds_id}] skip: multi-file manifest ({len(files_m)} assets); "
+                f"--rename-existing uses a single-archive heuristic per folder",
+                file=sys.stderr,
+            )
+            continue
+
+        url: str | None = None
+        if isinstance(files_m, list) and len(files_m) == 1 and isinstance(files_m[0], dict):
+            u0 = files_m[0].get("url")
+            if isinstance(u0, str) and u0.strip():
+                url = u0.strip()
+        if url is None:
+            u1 = dl_m.get("url")
+            if isinstance(u1, str) and u1.strip():
+                url = u1.strip()
+        if not url:
             print(f"[{ds_id}] skip: no download.url in manifest", file=sys.stderr)
             continue
 
@@ -572,15 +699,22 @@ def run_rename_existing_downloads(
 
 
 @dataclass(frozen=True)
+class FileDownload:
+    """A single ``wget`` target within one dataset folder."""
+
+    url: str
+    output_path: Path
+    wget_args: list[str]
+
+
+@dataclass(frozen=True)
 class DownloadJob:
-    """One dataset download: destination, URL, wget flags, manifest payload."""
+    """One dataset download folder: manifest plus one or more URL targets."""
 
     dataset_id: str
     label: str
     dest: Path
-    output_path: Path
-    url: str
-    wget_args: list[str]
+    files: list[FileDownload]
     manifest: dict[str, Any]
 
 
@@ -650,9 +784,9 @@ def _load_jobs(
             _die(f"datasets[{ds_id}].metadata must be a mapping")
 
         dl = item.get("download") or {}
-        url = dl.get("url")
-        if not url or not isinstance(url, str):
-            _die(f"datasets[{ds_id}].download.url must be a non-empty string")
+        if not isinstance(dl, dict):
+            _die(f"datasets[{ds_id}].download must be a mapping when present")
+        url_specs = _collect_download_url_specs(dl, ds_id)
 
         st = item.get("storage") or {}
         if not isinstance(st, dict):
@@ -667,22 +801,43 @@ def _load_jobs(
         )
 
         extra = _as_str_list(dl.get("wget_extra_args"), f"datasets[{ds_id}].download.wget_extra_args")
-        wget_args = _strip_wget_output_location_flags(_merge_wget_args(global_wget, extra))
 
         dest = Path(root.rstrip("/")) / subdir
-        out_name = _infer_output_filename(ds_id, url, meta, dl)
-        output_path = dest / out_name
+        file_rows: list[dict[str, Any]] = []
+        file_jobs: list[FileDownload] = []
+        for asset_i, (url, asset_ov) in enumerate(url_specs):
+            infer_dl = _infer_dl_for_asset(dl, asset_ov)
+            out_name = _infer_output_filename(ds_id, url, meta, infer_dl)
+            output_path = dest / out_name
+            wargs = _wget_args_for_asset(
+                global_wget,
+                extra,
+                asset_ov,
+                f"datasets[{ds_id}].download.files[{asset_i}].wget_extra_args",
+            )
+            file_jobs.append(FileDownload(url=url, output_path=output_path, wget_args=wargs))
+            file_rows.append(
+                {
+                    "url": url,
+                    "output_filename": out_name,
+                    "resolved_path": str(output_path),
+                }
+            )
+
+        first = file_rows[0]
+        download_block: dict[str, Any] = {
+            "files": file_rows,
+            "url": first["url"],
+            "output_filename": first["output_filename"],
+            "resolved_path": first["resolved_path"],
+        }
         manifest = {
             "schema": "tumor_niche.dataset_manifest/v1",
             "written_at": datetime.now(timezone.utc).isoformat(),
             "dataset_id": ds_id,
             "label": label,
             "metadata": meta,
-            "download": {
-                "url": url,
-                "output_filename": out_name,
-                "resolved_path": str(output_path),
-            },
+            "download": download_block,
             "storage": {
                 "root": root,
                 "subdir": subdir,
@@ -690,7 +845,7 @@ def _load_jobs(
             },
             "registry_source": str(cfg_path.resolve()),
         }
-        jobs.append(DownloadJob(ds_id, label, dest, output_path, url, wget_args, manifest))
+        jobs.append(DownloadJob(ds_id, label, dest, file_jobs, manifest))
 
     if want is not None:
         missing = want - {j.dataset_id for j in jobs}
@@ -721,7 +876,7 @@ _print_lock = threading.Lock()
 
 
 def _execute_download(job: DownloadJob) -> None:
-    """Create dest dir, write manifest, run wget (raises on failure)."""
+    """Create dest dir, write manifest, run wget for each asset (raises on failure)."""
     dest = job.dest
     dest.mkdir(parents=True, exist_ok=True)
     manifest_path = dest / _MANIFEST_NAME
@@ -736,10 +891,12 @@ def _execute_download(job: DownloadJob) -> None:
     with _print_lock:
         print()
         print(f"[{job.dataset_id}] label={job.label} -> {dest}")
-        print(f"  {job.url}")
-        print(f"  -> {job.output_path.name}")
-    cmd = ["wget", *job.wget_args, "-O", str(job.output_path), "--", job.url]
-    subprocess.run(cmd, check=True)
+    for fd in job.files:
+        with _print_lock:
+            print(f"  {fd.url}")
+            print(f"  -> {fd.output_path.name}")
+        cmd = ["wget", *fd.wget_args, "-O", str(fd.output_path), "--", fd.url]
+        subprocess.run(cmd, check=True)
 
 
 def main() -> None:

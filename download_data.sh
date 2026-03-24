@@ -27,7 +27,8 @@
 #   {root}/{dataset_prefix}/{label}__{geo_accession}
 # The archive is written with a clear name (e.g. GSE123_GEO_series_supplement.tar) via
 # wget -O; override with download.output_filename in data.yaml.
-# A dataset_manifest.yaml is written into that folder before wget runs.
+# Multiple URLs: download.url + download.url_2, url_3, … and/or download.urls: [ ... ].
+# A dataset_manifest.yaml is written into that folder before the first wget runs.
 
 set -euo pipefail
 
